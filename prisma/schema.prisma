@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  user
+}
+
+model User {
+  id          Int         @id @default(autoincrement())
+  nombre      String      @db.VarChar(100)
+  email       String      @unique @db.VarChar(150)
+  password    String
+  role        Role        @default(user)
+  createdAt   DateTime    @default(now())
+  solicitudes Solicitud[]
+
+  @@map("users")
+}
+
+model Camiseta {
+  id             Int         @id @default(autoincrement())
+  slug           String      @unique @db.VarChar(120)
+  name           String      @db.VarChar(150)
+  team           String      @db.VarChar(100)
+  year           String      @db.VarChar(20)
+  price          Int
+  image          String
+  type           String      @db.VarChar(30)
+  era            String      @db.VarChar(10)
+  category       String      @db.VarChar(30)
+  description    String
+  isAvailable    Boolean     @default(true)
+  immediateStock String[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  solicitudes    Solicitud[]
+
+  @@map("camisetas")
+}
+
+model Solicitud {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  camisetaId Int
+  talla      String   @db.VarChar(5)
+  mensaje    String?  @db.VarChar(500)
+  estado     String   @default("pendiente") @db.VarChar(20)
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  camiseta   Camiseta @relation(fields: [camisetaId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([camisetaId])
+  @@map("solicitudes")
+}
