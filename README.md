@@ -3,7 +3,7 @@
 API REST de **RetroLab**, la tienda de camisetas retro de fútbol de la Entrega 1, ahora con base de datos, usuarios con roles y autenticación con JWT.
 
 - **API en producción:** https://retrolab-api.onrender.com
-- **Frontend en Vercel:** _(pega aquí la URL de Vercel)_
+- **Frontend en Vercel:** https://retrolab-web.vercel.app
 - **Repositorio del frontend:** https://github.com/suribe27/retrolab-web
 
 ## Stack
